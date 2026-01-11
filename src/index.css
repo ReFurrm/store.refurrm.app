@@ -4,48 +4,48 @@
 
 @layer base {
   :root {
-    /* --- INDUSTRIAL NEON THEME (Forced Dark Mode) --- */
+    /* --- VINTAGE THEME --- */
     
-    /* Main Background: Gunmetal (#1C1C1C) */
-    --background: 0 0% 11%; 
+    /* PALE SKIN: #EDDACE - Main Background */
+    --background: 25 44% 87%;
     
-    /* Text: Platinum (#F5F5F5) */
-    --foreground: 0 0% 96%;
+    /* Text: Deep warm brown for contrast */
+    --foreground: 25 60% 15%;
 
-    /* Cards: Slightly lighter Charcoal (#2A2A2A) */
-    --card: 0 0% 16%;
-    --card-foreground: 0 0% 96%;
+    /* Cards: Slightly darker version of Pale Skin */
+    --card: 25 44% 82%;
+    --card-foreground: 25 60% 15%;
     
-    /* Popovers/Menus: Same as Card */
-    --popover: 0 0% 16%;
-    --popover-foreground: 0 0% 96%;
+    /* Popovers/Menus: Slightly darker Pale Skin */
+    --popover: 25 44% 82%;
+    --popover-foreground: 25 60% 15%;
 
-    /* Primary Button: BRIGHT NEON TEAL (#00E5FF) */
-    --primary: 186 100% 50%;
-    --primary-foreground: 0 0% 11%; /* Black text on the neon button */
+    /* Primary Button: BRICK (#C24C1A) */
+    --primary: 17 76% 43%;
+    --primary-foreground: 0 0% 98%;
 
-    /* Secondary: Dark Silver (#4A4A4A) */
-    --secondary: 0 0% 29%;
-    --secondary-foreground: 0 0% 96%;
+    /* Secondary: SOFT GREEN (#1E8D70) */
+    --secondary: 166 65% 34%;
+    --secondary-foreground: 0 0% 98%;
 
     /* Muted elements */
-    --muted: 0 0% 16%;
-    --muted-foreground: 0 0% 64%;
+    --muted: 25 30% 75%;
+    --muted-foreground: 25 40% 30%;
 
-    /* Accents */
-    --accent: 0 0% 29%;
-    --accent-foreground: 0 0% 96%;
+    /* Accents: TEAL (#8FCBCD) */
+    --accent: 181 39% 68%;
+    --accent-foreground: 25 60% 15%;
 
     /* Error Red */
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 96%;
+    --destructive-foreground: 0 0% 98%;
 
-    /* Borders: Dark Silver */
-    --border: 0 0% 29%;
-    --input: 0 0% 16%;
+    /* Borders: SOFT GREEN muted */
+    --border: 166 30% 50%;
+    --input: 25 30% 75%;
     
-    /* Focus Ring: Neon Teal */
-    --ring: 186 100% 50%;
+    /* Focus Ring: BRICK */
+    --ring: 17 76% 43%;
     
     --radius: 0.5rem;
   }

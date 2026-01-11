@@ -4,50 +4,66 @@
 
 @layer base {
   :root {
-    /* --- VINTAGE THEME --- */
-    
-    /* PALE SKIN: #EDDACE - Main Background */
-    --background: 25 44% 87%;
-    
-    /* Text: Deep warm brown for contrast */
-    --foreground: 25 60% 15%;
+    /* Soft Studio Light */
+    --background: 240 33% 98%;
+    --foreground: 222 22% 16%;
 
-    /* Cards: Slightly darker version of Pale Skin */
-    --card: 25 44% 82%;
-    --card-foreground: 25 60% 15%;
-    
-    /* Popovers/Menus: Slightly darker Pale Skin */
-    --popover: 25 44% 82%;
-    --popover-foreground: 25 60% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 22% 16%;
 
-    /* Primary Button: BRICK (#C24C1A) */
-    --primary: 17 76% 43%;
-    --primary-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 22% 16%;
 
-    /* Secondary: SOFT GREEN (#1E8D70) */
-    --secondary: 166 65% 34%;
-    --secondary-foreground: 0 0% 98%;
+    --primary: 262 83% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Muted elements */
-    --muted: 25 30% 75%;
-    --muted-foreground: 25 40% 30%;
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 222 22% 16%;
 
-    /* Accents: TEAL (#8FCBCD) */
-    --accent: 181 39% 68%;
-    --accent-foreground: 25 60% 15%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 15% 46%;
 
-    /* Error Red */
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --accent: 265 60% 96%;
+    --accent-foreground: 262 60% 30%;
 
-    /* Borders: SOFT GREEN muted */
-    --border: 166 30% 50%;
-    --input: 25 30% 75%;
-    
-    /* Focus Ring: BRICK */
-    --ring: 17 76% 43%;
-    
+    --destructive: 0 74% 52%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 90%;
+    --input: 220 15% 92%;
+    --ring: 262 83% 55%;
+
     --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 11%;
+    --foreground: 0 0% 96%;
+
+    --card: 0 0% 16%;
+    --card-foreground: 0 0% 96%;
+
+    --popover: 0 0% 16%;
+    --popover-foreground: 0 0% 96%;
+
+    --primary: 186 100% 50%;
+    --primary-foreground: 0 0% 11%;
+
+    --secondary: 0 0% 29%;
+    --secondary-foreground: 0 0% 96%;
+
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 64%;
+
+    --accent: 0 0% 29%;
+    --accent-foreground: 0 0% 96%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 96%;
+
+    --border: 0 0% 29%;
+    --input: 0 0% 16%;
+    --ring: 186 100% 50%;
   }
   
   * {

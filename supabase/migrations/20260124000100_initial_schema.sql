@@ -1,17 +1,7 @@
-## Database Setup (Supabase)
+-- Generated from DATABASE_SETUP.md (minimum viable schema)
 
-This app expects a Supabase project with a set of tables, storage buckets, and edge functions.
-The schema below is a **minimum viable setup** derived from actual code usage. You can expand
-columns, add indexes, and tighten RLS policies as needed.
-
-### 0) Required Extensions
-```sql
 create extension if not exists "uuid-ossp";
-```
 
-### 1) Tables
-```sql
--- Profiles (auth users)
 create table if not exists profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   full_name text,
@@ -21,7 +11,6 @@ create table if not exists profiles (
   created_at timestamptz default now()
 );
 
--- User profile/store builder settings
 create table if not exists user_profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   store_name text,
@@ -46,7 +35,6 @@ create table if not exists user_profiles (
   updated_at timestamptz default now()
 );
 
--- Shops (public storefront metadata)
 create table if not exists shops (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -62,7 +50,6 @@ create table if not exists shops (
   created_at timestamptz default now()
 );
 
--- Products
 create table if not exists products (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -70,7 +57,7 @@ create table if not exists products (
   name text,
   description text,
   price numeric default 0,
-  type text default 'digital', -- digital / physical / service
+  type text default 'digital',
   file_url text,
   image_url text,
   stock_quantity integer default 0,
@@ -79,7 +66,6 @@ create table if not exists products (
   created_at timestamptz default now()
 );
 
--- Orders
 create table if not exists orders (
   id uuid primary key default uuid_generate_v4(),
   product_id uuid references products(id) on delete set null,
@@ -93,7 +79,6 @@ create table if not exists orders (
   created_at timestamptz default now()
 );
 
--- Subscriptions
 create table if not exists subscriptions (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -105,11 +90,10 @@ create table if not exists subscriptions (
   created_at timestamptz default now()
 );
 
--- Payment gateways (Stripe/PayPal configs)
 create table if not exists payment_gateways (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
-  provider text, -- stripe / paypal
+  provider text,
   test_mode boolean default true,
   stripe_publishable_key text,
   stripe_secret_key text,
@@ -121,7 +105,6 @@ create table if not exists payment_gateways (
   unique (user_id, provider)
 );
 
--- Integrations (google calendar, printify, etc.)
 create table if not exists integrations (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -134,7 +117,6 @@ create table if not exists integrations (
   created_at timestamptz default now()
 );
 
--- Bookings
 create table if not exists bookings (
   id uuid primary key default uuid_generate_v4(),
   shop_id uuid references shops(id) on delete set null,
@@ -146,7 +128,6 @@ create table if not exists bookings (
   created_at timestamptz default now()
 );
 
--- Calendar sync logs
 create table if not exists calendar_sync_logs (
   id uuid primary key default uuid_generate_v4(),
   shop_id uuid references shops(id) on delete set null,
@@ -156,7 +137,6 @@ create table if not exists calendar_sync_logs (
   created_at timestamptz default now()
 );
 
--- Conversations + Messages (customer support chat)
 create table if not exists conversations (
   id uuid primary key default uuid_generate_v4(),
   shop_id uuid references shops(id) on delete set null,
@@ -169,7 +149,7 @@ create table if not exists conversations (
 create table if not exists messages (
   id uuid primary key default uuid_generate_v4(),
   conversation_id uuid references conversations(id) on delete cascade,
-  sender_type text, -- customer / owner
+  sender_type text,
   sender_name text,
   message_text text,
   file_url text,
@@ -177,7 +157,6 @@ create table if not exists messages (
   created_at timestamptz default now()
 );
 
--- Product reviews
 create table if not exists product_reviews (
   id uuid primary key default uuid_generate_v4(),
   product_id uuid references products(id) on delete cascade,
@@ -192,7 +171,6 @@ create table if not exists product_reviews (
   created_at timestamptz default now()
 );
 
--- Inventory history
 create table if not exists inventory_history (
   id uuid primary key default uuid_generate_v4(),
   product_id uuid references products(id) on delete cascade,
@@ -205,7 +183,6 @@ create table if not exists inventory_history (
   created_at timestamptz default now()
 );
 
--- Community posts
 create table if not exists community_posts (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -215,7 +192,6 @@ create table if not exists community_posts (
   created_at timestamptz default now()
 );
 
--- Collections + join table
 create table if not exists collections (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -231,7 +207,6 @@ create table if not exists collection_products (
   sort_order integer default 0
 );
 
--- Blog
 create table if not exists blog_categories (
   id uuid primary key default uuid_generate_v4(),
   name text,
@@ -251,7 +226,6 @@ create table if not exists blog_posts (
   created_at timestamptz default now()
 );
 
--- Email marketing
 create table if not exists email_templates (
   id uuid primary key default uuid_generate_v4(),
   created_by uuid references auth.users(id) on delete set null,
@@ -291,7 +265,6 @@ create table if not exists newsletter_subscribers (
   created_at timestamptz default now()
 );
 
--- Social media scheduler
 create table if not exists social_media_posts (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -302,7 +275,6 @@ create table if not exists social_media_posts (
   created_at timestamptz default now()
 );
 
--- Support tickets
 create table if not exists support_tickets (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -312,7 +284,6 @@ create table if not exists support_tickets (
   created_at timestamptz default now()
 );
 
--- Studio queue (AI generation pipeline)
 create table if not exists studio_queue (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -321,7 +292,6 @@ create table if not exists studio_queue (
   created_at timestamptz default now()
 );
 
--- Generated stores + artist campaigns
 create table if not exists generated_stores (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -341,7 +311,6 @@ create table if not exists artist_campaigns (
   created_at timestamptz default now()
 );
 
--- Affiliates
 create table if not exists affiliates (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -359,7 +328,6 @@ create table if not exists affiliates (
   created_at timestamptz default now()
 );
 
--- DM campaigns
 create table if not exists dm_campaigns (
   id uuid primary key default uuid_generate_v4(),
   shop_id uuid references shops(id) on delete set null,
@@ -369,7 +337,6 @@ create table if not exists dm_campaigns (
   created_at timestamptz default now()
 );
 
--- Printful settings (placeholder)
 create table if not exists printful_settings (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -377,7 +344,6 @@ create table if not exists printful_settings (
   created_at timestamptz default now()
 );
 
--- Onboarding analytics
 create table if not exists onboarding_analytics (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references auth.users(id) on delete cascade,
@@ -385,68 +351,3 @@ create table if not exists onboarding_analytics (
   metadata jsonb default '{}'::jsonb,
   created_at timestamptz default now()
 );
-```
-
-### 2) Storage Buckets
-Create these buckets in the Supabase dashboard (Storage):
-```
-store-logos
-reference-images
-review-photos
-chat-attachments
-```
-Recommended: set `store-logos`, `reference-images`, `review-photos` to public read; `chat-attachments` can be private if you plan to proxy downloads.
-
-### 3) Edge Functions (create stubs or implement)
-The app calls these edge functions:
-```
-ai-campaign-generator
-ai-collection-organizer
-ai-dm-script-generator
-ai-email-generator
-ai-image-analyzer
-ai-product-copy
-ai-product-finisher
-ai-store-generator
-ai-voice-to-store
-approve-affiliate
-bulk-email-customers
-cancel-subscription
-create-checkout-session
-export-data
-generate-product-mockups
-google-calendar-sync
-google-oauth-initiate
-grant-vip-access
-printful-order-fulfillment
-printify-get-shops
-seed-account-data
-social-media-scheduler
-verify-payment-gateway
-```
-
-### 4) RLS (baseline)
-For a quick start, enable RLS and add simple “owner-only” policies for private tables.
-Public tables like `products`, `shops`, `collections`, `blog_posts`, `community_posts` can allow
-`select` for `anon`.
-
-Example (repeat per table as needed):
-```sql
-alter table community_posts enable row level security;
-
-create policy "community_posts_select" on community_posts
-  for select using (true);
-
-create policy "community_posts_write" on community_posts
-  for insert with check (auth.uid() = user_id);
-
-create policy "community_posts_update" on community_posts
-  for update using (auth.uid() = user_id);
-
-create policy "community_posts_delete" on community_posts
-  for delete using (auth.uid() = user_id);
-```
-
-### 5) Notes
-- Move Supabase URL/key to env (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) and update `src/lib/supabase.ts` if needed.
-- This schema is intentionally minimal; add indexes and constraints as your data model stabilizes.

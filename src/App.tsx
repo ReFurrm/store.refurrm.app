@@ -6,7 +6,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { AdminRoute } from '@/components/AdminRoute';
-
+import CustomerSupport from '@/pages/CustomerSupport';
 import './App.css';
 
 const LoadingFallback = () => (

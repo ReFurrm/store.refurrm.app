@@ -48,12 +48,12 @@ export default defineConfig(({ mode }) => ({
       },
     },
     chunkSizeWarningLimit: 600,
-    sourcemap: mode === 'development',
+    sourcemap: mode === "development",
     minify: 'terser',
     terserOptions: {
       compress: {
-        drop_console: mode === 'production',
-        drop_debugger: mode === 'production',
+        drop_console: mode === "production",
+        drop_debugger: mode === "production",
       },
     },
   },

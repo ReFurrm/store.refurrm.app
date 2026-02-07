@@ -89,7 +89,7 @@ export default function Onboarding() {
         title: "Store created!",
         description: `AI generated ${aiData.starterProducts?.length || 0} starter products for you.`,
       });
-      navigate('/store-builder');
+      navigate('/dashboard');
     } catch (error) {
       toast({
         title: "Setup failed",

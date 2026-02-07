@@ -1,49 +1,95 @@
-# Refurrm Creator
+# Refurrm Creator Studio (Vite + React + TypeScript)
 
-## Local Dev
+A Vite-powered React app for the Refurrm Creator Studio experience. This repository contains the client application and UI flows for creator onboarding, storefront, dashboard, and admin tools.
+
+## Quick Start
+
+1. Install dependencies:
+
 ```bash
 npm install
+```
+
+2. Start the dev server:
+
+```bash
 npm run dev
 ```
 
-## Supabase Setup
-1) Create a Supabase project.
-2) Run the migration in `supabase/migrations/20260124000100_initial_schema.sql`.
-3) Create storage buckets:
-   - `store-logos`
-   - `reference-images`
-   - `review-photos`
-   - `chat-attachments`
-4) Add env vars:
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
+3. Open the app:
 
-## Edge Functions (Stubs)
-Stub functions live in `supabase/functions/*`. Deploy them with the Supabase CLI:
+- Default Vite dev server: http://localhost:5173
+- The Vite settings say: “listen on all network addresses” and “use port 8080.” So if you use those settings, the app runs on port 8080 instead of 5173.
+
+## Scripts
+
+- `npm run dev` Start Vite dev server
+- `npm run build` Build for production
+- `npm run build:dev` Build in development mode
+- `npm run preview` Preview the production build locally
+- `npm run lint` Run ESLint
+- `npm run test` Run Vitest
+
+## Tech Stack
+
+- Vite 7
+- React 18
+- TypeScript
+- Tailwind CSS
+- React Router
+- Supabase client
+- shadcn/ui (Radix UI primitives)
+
+## Project Structure
+
+- `src/` Application source
+- `src/pages/` Route-level pages
+- `src/components/` Feature components
+- `src/components/ui/` UI primitives
+- `src/contexts/` App/auth context providers
+- `src/lib/` Helpers and API clients
+- `public/` Static assets
+
+## Environment Variables
+
+Create a `.env` file in the project root with the following:
+
 ```bash
-supabase functions deploy ai-campaign-generator
-supabase functions deploy ai-collection-organizer
-supabase functions deploy ai-dm-script-generator
-supabase functions deploy ai-email-generator
-supabase functions deploy ai-image-analyzer
-supabase functions deploy ai-product-copy
-supabase functions deploy ai-product-finisher
-supabase functions deploy ai-store-generator
-supabase functions deploy ai-voice-to-store
-supabase functions deploy approve-affiliate
-supabase functions deploy bulk-email-customers
-supabase functions deploy cancel-subscription
-supabase functions deploy create-checkout-session
-supabase functions deploy export-data
-supabase functions deploy generate-product-mockups
-supabase functions deploy google-calendar-sync
-supabase functions deploy google-oauth-initiate
-supabase functions deploy grant-vip-access
-supabase functions deploy printful-order-fulfillment
-supabase functions deploy printify-get-shops
-supabase functions deploy seed-account-data
-supabase functions deploy social-media-scheduler
-supabase functions deploy verify-payment-gateway
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-Shared helpers for CORS + JSON responses live in `supabase/functions/_shared`.
+If you add additional integrations, document them here.
+
+## Routing
+
+Routes are defined in `src/App.tsx`. Pages should live in `src/pages` and be lazy-loaded into the router.
+
+## Linting & Tests
+
+- Lint before pushing changes:
+
+```bash
+npm run lint
+```
+
+- Run unit tests (if present):
+
+```bash
+npm run test
+```
+
+## Build Output
+
+Production builds are written to `dist/`.
+
+## Troubleshooting
+
+- `vite.config.ts` uses `mode` for sourcemaps and terser options.
+- If you see errors related to duplicate imports or invalid JSON in `package.json`, verify the file is valid JSON and there are no duplicate dependency entries.
+
+## Contributing
+
+- Keep components small and composable.
+- Prefer `@/` alias imports from `src`.
+- Avoid introducing secrets into the repo.

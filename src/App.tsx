@@ -18,7 +18,6 @@ const LoadingFallback = () => (
   </div>
 );
 
-// Public pages
 const Index = lazy(() => import('@/pages/Index'));
 const Login = lazy(() => import('@/pages/Login'));
 const Signup = lazy(() => import('@/pages/Signup'));
@@ -26,26 +25,6 @@ const ResetPassword = lazy(() => import('@/pages/ResetPassword'));
 const Storefront = lazy(() => import('@/pages/Storefront'));
 const Checkout = lazy(() => import('@/pages/Checkout'));
 const Success = lazy(() => import('@/pages/Success'));
-const Pricing = lazy(() => import('@/pages/Pricing'));
-const About = lazy(() => import('@/pages/About'));
-const Blog = lazy(() => import('@/pages/Blog'));
-const Terms = lazy(() => import('@/pages/Terms'));
-const Privacy = lazy(() => import('@/pages/Privacy'));
-const CCPA = lazy(() => import('@/pages/CCPA'));
-const DPA = lazy(() => import('@/pages/DPA'));
-const Refund = lazy(() => import('@/pages/Refund'));
-const AUP = lazy(() => import('@/pages/AUP'));
-const EULA = lazy(() => import('@/pages/EULA'));
-const CookiePolicy = lazy(() => import('@/pages/CookiePolicy'));
-const CreatorRights = lazy(() => import('@/pages/CreatorRights'));
-const CommunityGuidelines = lazy(() => import('@/pages/CommunityGuidelines'));
-const MerchantGuidelines = lazy(() => import('@/pages/MerchantGuidelines'));
-const AIOutputSafety = lazy(() => import('@/pages/AIOutputSafety'));
-const BetaTesterAgreement = lazy(() => import('@/pages/BetaTesterAgreement'));
-const AffiliateSignup = lazy(() => import('@/pages/AffiliateSignup'));
-const CollectionStorefront = lazy(() => import('@/pages/CollectionStorefront'));
-
-// Protected pages
 const Onboarding = lazy(() => import('@/pages/Onboarding'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Profile = lazy(() => import('@/pages/Profile'));
@@ -72,18 +51,10 @@ const EmailCampaigns = lazy(() => import('@/pages/EmailCampaigns'));
 const SocialMediaAnalytics = lazy(() => import('@/pages/SocialMediaAnalytics'));
 const Community = lazy(() => import('@/pages/Community'));
 const Marketplace = lazy(() => import('@/pages/Marketplace'));
-const Inventory = lazy(() => import('@/pages/Inventory'));
-const Orders = lazy(() => import('@/pages/Orders'));
-const StoreBuilder = lazy(() => import('@/pages/StoreBuilder'));
-const Studio = lazy(() => import('@/pages/Studio'));
-const Collections = lazy(() => import('@/pages/Collections'));
-
-// Admin pages
 const Admin = lazy(() => import('@/pages/Admin'));
 const BlogAdmin = lazy(() => import('@/pages/BlogAdmin'));
 const OnboardingAnalytics = lazy(() => import('@/pages/OnboardingAnalytics'));
-const Health = lazy(() => import('@/pages/Health'));
-
+const CustomerSupport = lazy(() => import('@/pages/CustomerSupport'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 
 function App() {
@@ -94,7 +65,6 @@ function App() {
           <Router>
             <Suspense fallback={<LoadingFallback />}>
               <Routes>
-                {/* Public routes */}
                 <Route path="/" element={<Index />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
@@ -102,73 +72,270 @@ function App() {
                 <Route path="/shop/:username" element={<Storefront />} />
                 <Route path="/checkout/:productId" element={<Checkout />} />
                 <Route path="/success" element={<Success />} />
-                <Route path="/pricing" element={<Pricing />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/ccpa" element={<CCPA />} />
-                <Route path="/dpa" element={<DPA />} />
-                <Route path="/refund" element={<Refund />} />
-                <Route path="/aup" element={<AUP />} />
-                <Route path="/eula" element={<EULA />} />
-                <Route path="/cookie-policy" element={<CookiePolicy />} />
-                <Route path="/creator-rights" element={<CreatorRights />} />
-                <Route path="/community-guidelines" element={<CommunityGuidelines />} />
-                <Route path="/merchant-guidelines" element={<MerchantGuidelines />} />
-                <Route path="/ai-output-safety" element={<AIOutputSafety />} />
-                <Route path="/beta-tester-agreement" element={<BetaTesterAgreement />} />
-                <Route path="/affiliate-signup" element={<AffiliateSignup />} />
-                <Route path="/collections/:slug" element={<CollectionStorefront />} />
 
-                {/* Protected routes */}
-                <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
-                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-                <Route path="/products" element={<ProtectedRoute><Products /></ProtectedRoute>} />
-                <Route path="/products/new" element={<ProtectedRoute><ProductForm /></ProtectedRoute>} />
-                <Route path="/products/:id" element={<ProtectedRoute><ProductForm /></ProtectedRoute>} />
-                <Route path="/products/:id/edit" element={<ProtectedRoute><ProductForm /></ProtectedRoute>} />
-                <Route path="/storefront" element={<ProtectedRoute><Storefront /></ProtectedRoute>} />
-                <Route path="/subscriptions" element={<ProtectedRoute><Subscriptions /></ProtectedRoute>} />
-                <Route path="/premium" element={<ProtectedRoute><PremiumContent /></ProtectedRoute>} />
-                <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
-                <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
-                <Route path="/dm-campaigns" element={<ProtectedRoute><DMCampaigns /></ProtectedRoute>} />
-                <Route path="/emails" element={<ProtectedRoute><Emails /></ProtectedRoute>} />
-                <Route path="/integrations" element={<ProtectedRoute><Integrations /></ProtectedRoute>} />
-                <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-                <Route path="/billing" element={<ProtectedRoute><Billing /></ProtectedRoute>} />
-                <Route path="/dunning" element={<ProtectedRoute><Dunning /></ProtectedRoute>} />
-                <Route path="/support-admin" element={<ProtectedRoute><SupportAdmin /></ProtectedRoute>} />
-                <Route path="/vip-manager" element={<ProtectedRoute><VIPManager /></ProtectedRoute>} />
-                <Route path="/affiliates" element={<ProtectedRoute><Affiliates /></ProtectedRoute>} />
-                <Route path="/affiliate-dashboard" element={<ProtectedRoute><AffiliateDashboard /></ProtectedRoute>} />
-                <Route path="/email-templates" element={<ProtectedRoute><EmailTemplates /></ProtectedRoute>} />
-                <Route path="/reviews-manager" element={<ProtectedRoute><ReviewsManager /></ProtectedRoute>} />
-                <Route path="/reviews-analytics" element={<ProtectedRoute><ReviewsAnalytics /></ProtectedRoute>} />
-                <Route path="/email-campaigns" element={<ProtectedRoute><EmailCampaigns /></ProtectedRoute>} />
-                <Route path="/social-analytics" element={<ProtectedRoute><SocialMediaAnalytics /></ProtectedRoute>} />
-                <Route path="/community" element={<ProtectedRoute><Community /></ProtectedRoute>} />
-                <Route path="/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
-                <Route path="/inventory" element={<ProtectedRoute><Inventory /></ProtectedRoute>} />
-                <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
-                <Route path="/store-builder" element={<ProtectedRoute><StoreBuilder /></ProtectedRoute>} />
-                <Route path="/studio" element={<ProtectedRoute><Studio /></ProtectedRoute>} />
-                <Route path="/collections" element={<ProtectedRoute><Collections /></ProtectedRoute>} />
+                <Route
+                  path="/onboarding"
+                  element={
+                    <ProtectedRoute>
+                      <Onboarding />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/products"
+                  element={
+                    <ProtectedRoute>
+                      <Products />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/products/new"
+                  element={
+                    <ProtectedRoute>
+                      <ProductForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/products/:id"
+                  element={
+                    <ProtectedRoute>
+                      <ProductForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/products/:id/edit"
+                  element={
+                    <ProtectedRoute>
+                      <ProductForm />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/storefront"
+                  element={
+                    <ProtectedRoute>
+                      <Storefront />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/subscriptions"
+                  element={
+                    <ProtectedRoute>
+                      <Subscriptions />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/premium"
+                  element={
+                    <ProtectedRoute>
+                      <PremiumContent />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/bookings"
+                  element={
+                    <ProtectedRoute>
+                      <Bookings />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/analytics"
+                  element={
+                    <ProtectedRoute>
+                      <Analytics />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dm-campaigns"
+                  element={
+                    <ProtectedRoute>
+                      <DMCampaigns />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/emails"
+                  element={
+                    <ProtectedRoute>
+                      <Emails />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/integrations"
+                  element={
+                    <ProtectedRoute>
+                      <Integrations />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/settings"
+                  element={
+                    <ProtectedRoute>
+                      <Settings />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/billing"
+                  element={
+                    <ProtectedRoute>
+                      <Billing />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/dunning"
+                  element={
+                    <ProtectedRoute>
+                      <Dunning />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/support-admin"
+                  element={
+                    <ProtectedRoute>
+                      <SupportAdmin />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/vip-manager"
+                  element={
+                    <ProtectedRoute>
+                      <VIPManager />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/affiliates"
+                  element={
+                    <ProtectedRoute>
+                      <Affiliates />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/affiliate-dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <AffiliateDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/email-templates"
+                  element={
+                    <ProtectedRoute>
+                      <EmailTemplates />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/reviews-manager"
+                  element={
+                    <ProtectedRoute>
+                      <ReviewsManager />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/reviews-analytics"
+                  element={
+                    <ProtectedRoute>
+                      <ReviewsAnalytics />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/email-campaigns"
+                  element={
+                    <ProtectedRoute>
+                      <EmailCampaigns />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/social-analytics"
+                  element={
+                    <ProtectedRoute>
+                      <SocialMediaAnalytics />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/community"
+                  element={
+                    <ProtectedRoute>
+                      <Community />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/marketplace"
+                  element={
+                    <ProtectedRoute>
+                      <Marketplace />
+                    </ProtectedRoute>
+                  }
+                />
 
-                {/* Admin routes */}
-                <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
-                <Route path="/blog/admin" element={<AdminRoute><BlogAdmin /></AdminRoute>} />
-                <Route path="/onboarding-analytics" element={<AdminRoute><OnboardingAnalytics /></AdminRoute>} />
-                <Route path="/health" element={<AdminRoute><Health /></AdminRoute>} />
+                <Route
+                  path="/admin"
+                  element={
+                    <AdminRoute>
+                      <Admin />
+                    </AdminRoute>
+                  }
+                />
+                <Route
+                  path="/blog/admin"
+                  element={
+                    <AdminRoute>
+                      <BlogAdmin />
+                    </AdminRoute>
+                  }
+                />
+                <Route
+                  path="/onboarding-analytics"
+                  element={
+                    <AdminRoute>
+                      <OnboardingAnalytics />
+                    </AdminRoute>
+                  }
+                />
 
-                {/* Catch all */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              <CustomerSupport />
+              <Toaster />
             </Suspense>
-            <CustomerSupport />
-            <Toaster />
           </Router>
         </AppProvider>
       </AuthProvider>

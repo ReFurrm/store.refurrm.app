@@ -88,6 +88,23 @@ Production builds are written to `dist/`.
 - `vite.config.ts` uses `mode` for sourcemaps and terser options.
 - If you see errors related to duplicate imports or invalid JSON in `package.json`, verify the file is valid JSON and there are no duplicate dependency entries.
 
+## Branch Management
+
+This repository uses multiple branches for feature development. To keep the repository clean:
+
+- **Delete branches after merging PRs** using GitHub's "Delete branch" button
+- **Run regular cleanups** using the provided script:
+  ```bash
+  # Preview branches that can be deleted
+  ./scripts/cleanup-branches.sh --dry-run
+  
+  # Delete merged branches
+  ./scripts/cleanup-branches.sh
+  ```
+- **Review the automated cleanup issues** created weekly by the Branch Cleanup workflow
+
+For more details, see [BRANCH_MANAGEMENT.md](./BRANCH_MANAGEMENT.md)
+
 ## Contributing
 
 - Keep components small and composable.

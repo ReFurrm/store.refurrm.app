@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 
 // Layouts handle the persistent UI like the AI Assistant sidebar or navigation
@@ -11,6 +12,7 @@ const MarketplaceFeed = lazy(() => import('./pages/Marketplace'));
 const CreatorStorefront = lazy(() => import('./pages/Storefront'));
 const DashboardOverview = lazy(() => import('./pages/Dashboard'));
 const AIAssistantCenter = lazy(() => import('./pages/Assistant'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function App() {
   return (
@@ -41,6 +43,8 @@ function App() {
 
           {/* Catch-all: Redirect back to discovery */}
           <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Catch-all: Show 404 Not Found page */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </Router>

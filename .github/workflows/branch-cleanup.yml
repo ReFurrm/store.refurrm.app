@@ -1,0 +1,166 @@
+name: Branch Cleanup Reminder
+
+on:
+  schedule:
+    # Run every Monday at 9:00 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  check-merged-branches:
+    name: Check for Merged Branches
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch all branches
+        run: |
+          git fetch --all --prune
+
+      - name: Find merged branches
+        id: find-branches
+        run: |
+          # Find merged remote branches
+          echo "Finding merged branches..."
+
+          # Get branches merged into main
+          MERGED_BRANCHES=$(git branch -r --merged origin/main | \
+            grep -v "origin/main" | \
+            grep -v "HEAD" | \
+            sed 's|^[[:space:]]*origin/||' | \
+            sort || true)
+
+          # Count merged branches
+          BRANCH_COUNT=$(echo "$MERGED_BRANCHES" | grep -v "^$" | wc -l || echo "0")
+
+          echo "Found $BRANCH_COUNT merged branches"
+
+          # Save to output
+          echo "branch_count=$BRANCH_COUNT" >> $GITHUB_OUTPUT
+
+          # Save branch list to file
+          echo "$MERGED_BRANCHES" > merged_branches.txt
+
+      - name: Check for open PRs
+        id: check-prs
+        if: steps.find-branches.outputs.branch_count > 0
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Get list of open PR branches
+          gh pr list --state open --json headRefName --jq '.[].headRefName' > open_pr_branches.txt
+
+          # Filter out branches with open PRs
+          if [ -s merged_branches.txt ]; then
+            # Create list of safe-to-delete branches
+            while IFS= read -r branch; do
+              if [ -n "$branch" ] && ! grep -q "^${branch}$" open_pr_branches.txt 2>/dev/null; then
+                echo "$branch" >> safe_to_delete.txt
+              fi
+            done < merged_branches.txt
+
+            SAFE_COUNT=$(cat safe_to_delete.txt 2>/dev/null | wc -l || echo "0")
+            echo "safe_count=$SAFE_COUNT" >> $GITHUB_OUTPUT
+          else
+            echo "safe_count=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create issue for branch cleanup
+        if: steps.check-prs.outputs.safe_count > 0
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          SAFE_COUNT="${{ steps.check-prs.outputs.safe_count }}"
+
+          # Create issue body
+          cat > issue_body.md << 'EOF'
+          ## 🧹 Branch Cleanup Reminder
+
+          This automated workflow has detected **$SAFE_COUNT** merged branches that can be safely deleted.
+
+          ### Branches Safe to Delete
+
+          These branches have been merged into `main` and have no open pull requests:
+
+          EOF
+
+          # Add branch list
+          if [ -f safe_to_delete.txt ]; then
+            while IFS= read -r branch; do
+              if [ -n "$branch" ]; then
+                echo "- \`$branch\`" >> issue_body.md
+              fi
+            done < safe_to_delete.txt
+          fi
+
+          cat >> issue_body.md << 'EOF'
+
+          ### How to Delete These Branches
+
+          #### Option 1: Use the cleanup script (Recommended)
+          ```bash
+          # Preview what will be deleted
+          ./scripts/cleanup-branches.sh --dry-run
+
+          # Delete the branches
+          ./scripts/cleanup-branches.sh
+          ```
+
+          #### Option 2: Manual deletion via GitHub Web UI
+          1. Go to [Branches page](https://github.com/${{ github.repository }}/branches)
+          2. Find branches marked as "Merged"
+          3. Click the trash icon to delete them
+
+          #### Option 3: Manual deletion via Git commands
+          ```bash
+          # Delete remote branches one by one
+          git push origin --delete <branch-name>
+          ```
+
+          ### Why Clean Up Branches?
+
+          - ✅ Keeps the repository organized
+          - ✅ Reduces clutter in branch lists
+          - ✅ Makes it easier to find active branches
+          - ✅ Reduces repository size over time
+
+          ### Documentation
+
+          For more information, see [BRANCH_MANAGEMENT.md](https://github.com/${{ github.repository }}/blob/main/BRANCH_MANAGEMENT.md)
+
+          ---
+
+          *This issue was automatically created by the Branch Cleanup workflow.*
+          *You can safely close this issue after cleaning up the branches.*
+          EOF
+
+          # Replace placeholder with actual count
+          sed -i "s/\$SAFE_COUNT/$SAFE_COUNT/g" issue_body.md
+
+          # Check if similar issue already exists
+          EXISTING_ISSUE=$(gh issue list --label "branch-cleanup" --state open --json number --jq '.[0].number' || echo "")
+
+          if [ -n "$EXISTING_ISSUE" ]; then
+            echo "Updating existing issue #$EXISTING_ISSUE"
+            gh issue edit "$EXISTING_ISSUE" --body-file issue_body.md
+          else
+            echo "Creating new issue"
+            gh issue create \
+              --title "🧹 Branch Cleanup: $SAFE_COUNT merged branches can be deleted" \
+              --body-file issue_body.md \
+              --label "branch-cleanup,maintenance"
+          fi
+
+      - name: No branches to clean up
+        if: steps.find-branches.outputs.branch_count == 0 || steps.check-prs.outputs.safe_count == 0
+        run: |
+          echo "✅ No merged branches found that can be deleted. Repository is clean!"

@@ -171,3 +171,4 @@ echo ""
 echo -e "${GREEN}Cleanup complete!${NC}"
 echo ""
 echo -e "${BLUE}Tip: Run 'git fetch --prune' to update your local repository.${NC}"
+

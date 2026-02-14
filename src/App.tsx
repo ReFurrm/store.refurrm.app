@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { AppProvider } from '@/contexts/AppContext';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // Layouts handle the persistent UI like the AI Assistant sidebar or navigation
 const MarketplaceLayout = lazy(() => import('./layouts/MarketplaceLayout'));

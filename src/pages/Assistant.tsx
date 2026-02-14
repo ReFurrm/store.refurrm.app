@@ -1,48 +1,46 @@
 import React from 'react';
+import { Sparkles, ArrowUpRight, MessageCircle } from 'lucide-react';
 
 const AIAssistantCenter = () => {
-  // Mock data for the assistant's "thoughts"
-  const suggestions = [
-    { id: 1, type: 'action', text: "Your 'Sunset Series' is getting clicks from TikTok. I've drafted a limited-time 10% discount code to close more sales. Want to activate it?", label: 'Activate Discount' },
-    { id: 2, type: 'insight', text: "Most of your fans are active around 6 PM EST. I can schedule your next product drop for then.", label: 'Schedule Drop' },
-    { id: 3, type: 'draft', text: "I noticed you haven't replied to a message about a custom commission. Here's a draft response based on your previous pricing...", label: 'Review Draft' }
+  const tasks = [
+    { id: 1, title: 'Boost Conversion', desc: "Your 'Abstract Blue' piece is getting high traffic but low sales. Want me to draft a limited-time 15% discount for it?", action: 'Draft Discount' },
+    { id: 2, title: 'Content Strategy', desc: "It's been 3 days since your last update. I've prepared a 'Behind the Scenes' post draft for your storefront.", action: 'Review Post' },
   ];
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <header className="mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">Good morning, Artist.</h1>
-        <p className="text-gray-500 text-lg">I've been keeping an eye on your empire while you were away. Here’s what we should focus on today:</p>
+    <div className="p-8 max-w-5xl mx-auto">
+      <header className="mb-10">
+        <h1 className="text-3xl font-bold mb-2">Welcome back, Creator.</h1>
+        <p className="text-slate-500">I've analyzed your shop activity. Here's your game plan for today.</p>
       </header>
 
-      <div className="grid gap-6">
-        {suggestions.map((item) => (
-          <div key={item.id} className="bg-white border-2 border-indigo-50 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow flex items-start justify-between">
-            <div className="flex-1 pr-8">
-              <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 ${
-                item.type === 'action' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'
-              }`}>
-                {item.type.toUpperCase()}
-              </span>
-              <p className="text-gray-800 text-lg leading-relaxed">{item.text}</p>
+      <div className="grid gap-6 mb-12">
+        {tasks.map(task => (
+          <div key={task.id} className="bg-white border border-slate-100 p-6 rounded-2xl flex items-center justify-between shadow-sm">
+            <div className="max-w-xl">
+              <div className="flex items-center gap-2 text-indigo-600 font-semibold mb-1">
+                <Sparkles size={16} />
+                <span>{task.title}</span>
+              </div>
+              <p className="text-slate-600">{task.desc}</p>
             </div>
-            <button className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors whitespace-nowrap">
-              {item.label}
+            <button className="bg-slate-900 text-white px-5 py-2.5 rounded-xl font-medium hover:bg-indigo-600 transition-colors">
+              {task.action}
             </button>
           </div>
         ))}
       </div>
 
-      <footer className="mt-12 p-6 bg-indigo-50 rounded-2xl border border-indigo-100">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold italic">R</div>
-          <input 
-            type="text" 
-            placeholder="Ask me to do something (e.g., 'Draft a newsletter for my top 50 fans')" 
-            className="flex-1 bg-transparent border-none focus:ring-0 text-indigo-900 placeholder-indigo-400 text-lg"
-          />
+      <div className="bg-indigo-600 rounded-3xl p-8 text-white flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold mb-2">Need a new campaign?</h2>
+          <p className="text-indigo-100">Just describe your vibe, and I'll build the pages and copy.</p>
         </div>
-      </footer>
+        <button className="bg-white text-indigo-600 px-6 py-3 rounded-2xl font-bold flex items-center gap-2">
+          <MessageCircle size={20} />
+          Talk to Assistant
+        </button>
+      </div>
     </div>
   );
 };
